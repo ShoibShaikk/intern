@@ -1,13 +1,11 @@
 // text.js: make links from titles, and shorten long text.
 // Part of rupee-kit. SPEC.md says exactly what each function must do.
 
-const COMBINING_MARKS_RE = new RegExp("[\\u0300-\\u036f\\u1ab0-\\u1aff\\u1dc0-\\u1dff\\u20d0-\\u20ff]", "g");
-
 /** "Café Délhi & Co." → "cafe-delhi-and-co". Nothing usable left → "untitled". */
 export function slugify(title) {
   const slug = String(title ?? "")
     .normalize("NFD")
-    .replace(COMBINING_MARKS_RE, "") // drop accents: é → e
+    .replace(/[^\x00-\x7F]/g, "") // drop accents: é → e
     .toLowerCase()
     .replace(/&/g, " and ")
     .replace(/[^a-z0-9]/g, "-")
