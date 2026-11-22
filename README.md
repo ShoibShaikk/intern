@@ -97,3 +97,9 @@ Generated via `node --test --experimental-test-coverage`:
    - Comprehensive test suite covering every function, error condition (`RangeError`), and edge case.
 4. **Bonus Step 11: `formatINRShort(amount)`**:
    - Added specification to `SPEC.md`, comprehensive unit test suite, and clean implementation in `money.js`.
+---
+
+## Walkthrough Video
+
+- **Video Link**: [Watch 3-Minute Walkthrough Video (YouTube / Loom / Drive)](https://www.youtube.com/watch?v=YOUR_VIDEO_LINK_HERE) *(Replace with your unlisted video URL)*
+- **Presentation Outline & Script**: See [VIDEO_SCRIPT.md](VIDEO_SCRIPT.md) for the full 3-minute walkthrough script explaining initial test failures, the rounding bug, and the date/timezone bug.
