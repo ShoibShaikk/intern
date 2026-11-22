@@ -14,7 +14,6 @@ function groupIndian(digits) {
 }
 
 /** 150000 → "₹1,50,000.00". Anything that isn't a finite number → "". */
-/** 150000 → "₹1,50,000.00". Anything that isn't a finite number → "". */
 export function formatINR(amount) {
   if (typeof amount !== "number" || !Number.isFinite(amount)) return "";
   const sign = amount < 0 ? "-" : "";
@@ -40,9 +39,19 @@ export function parseINR(text) {
 
 /** Splits a bill between `people` friends. The shares must add up to the total exactly. */
 export function splitAmount(total, people) {
-  if (!Number.isInteger(people) || people < 1) throw new RangeError("people must be a whole number, 1 or more");
-  const share = roundPaise(total / people);
-  return Array.from({ length: people }, () => share);
+  if (!Number.isInteger(people) || people < 1) {
+    throw new RangeError("people must be a whole number, 1 or more");
+  }
+  const totalPaise = Math.round(total * 100);
+  const basePaise = Math.trunc(totalPaise / people);
+  const remainder = totalPaise % people;
+  const extraStep = remainder > 0 ? 1 : remainder < 0 ? -1 : 0;
+  const extraCount = Math.abs(remainder);
+
+  return Array.from({ length: people }, (_, idx) => {
+    const paise = basePaise + (idx < extraCount ? extraStep : 0);
+    return paise / 100;
+  });
 }
 
 /** A price that already includes GST → { base, gst }. base + gst must equal the price. */
