@@ -31,6 +31,18 @@ Shows a rupee amount the Indian way.
 | `25000000` | `"₹2,50,00,000.00"` |
 | `-2500` | `"-₹2,500.00"` |
 
+### `formatINRShort(amount)`
+
+Shows a compact rupee amount using lakh or crore for large numbers.
+
+- For amounts from 10,000,000 (1 crore) and above, shows in crore: `10000000` → `"₹1 crore"`, `25000000` → `"₹2.5 crore"`.
+- For amounts from 100,000 (1 lakh) up to 9,999,999, shows in lakh: `150000` → `"₹1.5 lakh"`, `100000` → `"₹1 lakh"`.
+- Trim trailing zeros after the decimal point: `"₹1.5 lakh"`, `"₹1 lakh"`, not `"₹1.0 lakh"`. Maximum 2 decimal places.
+- Amounts under 100,000 use `formatINR(amount)`.
+- Rounding is half up to 2 decimal places.
+- Negative amounts put the minus first: `-150000` → `"-₹1.5 lakh"`.
+- Non-finite numbers (`NaN`, `Infinity`, `"150000"`, `null`) → `""`.
+
 ### `parseINR(text)`
 
 Reads a price typed by a person, and returns a number of rupees (rounded to paise).

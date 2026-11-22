@@ -1,8 +1,11 @@
 // money.js: show, read, split and tax rupee amounts.
 // Part of rupee-kit. SPEC.md says exactly what each function must do.
 
-// Rounds a rupee amount to whole paise (2 decimals).
-const roundPaise = (amount) => Math.round(amount * 100) / 100;
+// Rounds a rupee amount to whole paise (2 decimals) with half-up rounding.
+const roundPaise = (amount) => {
+  const sign = amount < 0 ? -1 : 1;
+  return (Math.floor(Math.abs(amount) * 100 + 0.5 + 1e-9) / 100) * sign;
+};
 
 // "1234567" → "12,34,567": the last 3 digits, then groups of 2.
 function groupIndian(digits) {
@@ -21,6 +24,22 @@ export function formatINR(amount) {
   const rupees = String(Math.floor(totalPaise / 100));
   const paise = String(totalPaise % 100).padStart(2, "0");
   return `${sign}₹${groupIndian(rupees)}.${paise}`;
+}
+
+/** 150000 → "₹1.5 lakh", 10000000 → "₹1 crore". Compact rupee amount. */
+export function formatINRShort(amount) {
+  if (typeof amount !== "number" || !Number.isFinite(amount)) return "";
+  const sign = amount < 0 ? "-" : "";
+  const abs = Math.abs(amount);
+  if (abs >= 10000000) {
+    const val = roundPaise(abs / 10000000);
+    return `${sign}₹${val} crore`;
+  }
+  if (abs >= 100000) {
+    const val = roundPaise(abs / 100000);
+    return `${sign}₹${val} lakh`;
+  }
+  return formatINR(amount);
 }
 
 /** "₹1,20,000", "Rs. 500", "1.5 lakh", "2 crore" → a number of rupees. Not understood → null. */
@@ -42,7 +61,7 @@ export function splitAmount(total, people) {
   if (!Number.isInteger(people) || people < 1) {
     throw new RangeError("people must be a whole number, 1 or more");
   }
-  const totalPaise = Math.round(total * 100);
+  const totalPaise = Math.floor(Math.abs(total) * 100 + 0.5 + 1e-9) * (total < 0 ? -1 : 1);
   const basePaise = Math.trunc(totalPaise / people);
   const remainder = totalPaise % people;
   const extraStep = remainder > 0 ? 1 : remainder < 0 ? -1 : 0;
