@@ -14,10 +14,13 @@ function groupIndian(digits) {
 }
 
 /** 150000 → "₹1,50,000.00". Anything that isn't a finite number → "". */
+/** 150000 → "₹1,50,000.00". Anything that isn't a finite number → "". */
 export function formatINR(amount) {
   if (typeof amount !== "number" || !Number.isFinite(amount)) return "";
   const sign = amount < 0 ? "-" : "";
-  const [rupees, paise] = Math.abs(amount).toFixed(2).split(".");
+  const totalPaise = Math.floor(Math.abs(amount) * 100 + 0.5 + 1e-9);
+  const rupees = String(Math.floor(totalPaise / 100));
+  const paise = String(totalPaise % 100).padStart(2, "0");
   return `${sign}₹${groupIndian(rupees)}.${paise}`;
 }
 
