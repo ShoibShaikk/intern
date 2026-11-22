@@ -55,8 +55,6 @@ export function splitAmount(total, people) {
 }
 
 /** A price that already includes GST → { base, gst }. base + gst must equal the price. */
-/** A price that already includes GST → { base, gst }. base + gst must equal the price. */
-/** A price that already includes GST → { base, gst }. base + gst must equal the price. */
 export function gstFromInclusive(price, ratePercent) {
   if (!Number.isFinite(ratePercent) || ratePercent < 0 || ratePercent > 100) {
     throw new RangeError("ratePercent must be between 0 and 100");
