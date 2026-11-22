@@ -5,7 +5,7 @@
 export function slugify(title) {
   const slug = String(title ?? "")
     .normalize("NFD")
-    .replace(/[^\x00-\x7F]/g, "") // drop accents: é → e
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/&/g, " and ")
     .replace(/[^a-z0-9]/g, "-")
@@ -20,5 +20,5 @@ export function slugify(title) {
 export function truncate(text, max) {
   const value = String(text ?? "");
   if (value.length <= max) return value;
-  return value.slice(0, max) + "…";
+  return value.slice(0, max) + "\u2026";
 }
