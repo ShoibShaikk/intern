@@ -17,9 +17,9 @@ export function slugify(title) {
     .replace(/&/g, " and ")
     .replace(/[^a-z0-9]/g, "-")
     .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "")
+    .replace(/^-+|-+$/g, "")
     .slice(0, 60)
-    .replace(/-$/, "");
+    .replace(/-+$/, "");
   return slug || "untitled";
 }
 
@@ -32,5 +32,5 @@ export function truncate(text, max) {
   const graphemes = toGraphemes(value);
   if (graphemes.length <= max) return value;
   if (max === 0) return "";
-  return graphemes.slice(0, max - 1).join("") + "\u2026";
+  return graphemes.slice(0, max - 1).join("") + "…";
 }
