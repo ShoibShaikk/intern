@@ -9,8 +9,8 @@ function groupIndian(digits) {
   if (digits.length <= 3) return digits;
   const lastThree = digits.slice(-3);
   const rest = digits.slice(0, -3);
-  const pairs = rest.match(/\d{1,2}/g);
-  return `${pairs.join(",")},${lastThree}`;
+  const pairs = rest.replace(/\d(?=(?:\d{2})+$)/g, "$&,");
+  return `${pairs},${lastThree}`;
 }
 
 /** 150000 → "₹1,50,000.00". Anything that isn't a finite number → "". */
