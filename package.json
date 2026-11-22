@@ -1,0 +1,13 @@
+{
+  "name": "rupee-kit",
+  "version": "0.3.0",
+  "description": "Small helpers for rupee amounts, Indian dates and links.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
