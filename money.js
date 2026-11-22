@@ -30,7 +30,7 @@ export function parseINR(text) {
   if (typeof text !== "string") return null;
   let value = text.trim().toLowerCase();
   value = value.replace(/^(₹|rs\.?|inr)\s*/, "");
-  value = value.replace(",", "");
+  value = value.replaceAll(",", "");
   const match = value.match(/^(\d+(?:\.\d+)?)\s*(lakhs?|lacs?|crores?|cr)?$/);
   if (!match) return null;
   const [, number, unit] = match;
